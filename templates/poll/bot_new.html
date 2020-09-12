@@ -1,0 +1,13 @@
+{% extends 'poll/bot_base.html' %}
+
+{% block content %}
+<div>
+<h3>Новый бот</h3>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Оценить"/>
+</form>
+</div>
+
+{% endblock %}

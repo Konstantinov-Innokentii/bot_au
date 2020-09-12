@@ -1,0 +1,21 @@
+{% extends 'poll/bot_base.html' %}
+{% block content %}
+    <div>
+        <h2><a href={% url 'bots' %}>{{ bot.title }}</a></h2>
+        <h4 class="mb-4">Результат {{ bot.res }}%</h4>
+        {% for i in bot.improvements %}
+            <li><b>{{ i.question.verbal }}</b></li>
+            <div class="mt-3 ml-3">
+            {% if i.question.threat %}
+                <p class="mb-0"><i>Связанная угроза</i></p>
+                <a href={{ i.question.link }}>{{ i.question.threat }}</a>
+            {% endif %}
+            <p/>
+            {% if  i.question.solution != '-' %}
+                <p class="mb-0"><i>Рекомендации</i></p>
+                <p>{{ i.question.solution }}</p>
+            {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
