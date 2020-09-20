@@ -24,7 +24,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'change_me_secret_key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ["https://cryptic-springs-24035.herokuapp.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
