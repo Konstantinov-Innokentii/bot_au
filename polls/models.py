@@ -20,6 +20,8 @@ class Bot(models.Model):
         n_sum = 0
         for n_q in no_questions:
             n_sum += n_q.question.weight
+        if total_sum == 0:
+            return 0
         return round(100 - n_sum/total_sum * 100)
 
     @property

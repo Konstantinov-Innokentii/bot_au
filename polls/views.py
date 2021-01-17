@@ -14,10 +14,8 @@ class BotHasQuestionUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         next_question = self.object.next()
         if next_question is not None:
-            print("NOT YET")
             return reverse('answer', args=(next_question.pk,))
         else:
-            print("END")
             return reverse('bot_result', args=(self.object.bot.pk,))
 
 
@@ -25,6 +23,11 @@ class BotCreateView(LoginRequiredMixin, CreateView):
     model = Bot
     form_class = BotCreationForm
     template_name = 'poll/bot_new.html'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'current_user': self.request.user})
+        return kwargs
 
     def form_valid(self, form):
         form.instance.author = self.request.user
