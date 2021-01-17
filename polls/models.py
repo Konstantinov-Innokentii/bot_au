@@ -37,14 +37,14 @@ class Bot(models.Model):
 
 
 class Question(models.Model):
-    text = models.CharField(max_length=250)
+    text = models.CharField(max_length=250, verbose_name="Текст вопроса")
     WEIGHT_CHOICES = [(i, i) for i in range(11)]
-    weight = models.IntegerField(choices=WEIGHT_CHOICES)
-    solution = models.TextField(null=True, default=None)
-    db = models.BooleanField()
-    threat = models.CharField(max_length=250, null=True, default=None)
-    verbal = models.CharField(max_length=250, null=True, default=None)
-    link = models.URLField(null=True, default=None)
+    weight = models.IntegerField(choices=WEIGHT_CHOICES, verbose_name="Вес")
+    solution = models.TextField(null=True, default=None, verbose_name="Рекомендации")
+    db = models.BooleanField(verbose_name="Угроза базе данных")
+    threat = models.CharField(max_length=250, null=True, default=None, verbose_name="Название угрозы")
+    verbal = models.CharField(max_length=250, null=True, default=None, verbose_name="Заголовок")
+    link = models.URLField(null=True, default=None, verbose_name="Ссылка на БД угроз ФСТЭК")
 
     def __str__(self):
         return f"{self.text}"

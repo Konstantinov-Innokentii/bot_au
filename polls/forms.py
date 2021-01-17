@@ -14,7 +14,7 @@ class BotCreationForm(ModelForm):
         fields = ('title', 'have_db',)
         labels = {
             'title': 'Название',
-            'have_db': 'Используется ли бд'
+            'have_db': 'Используется ли БД в вашем боте?'
         }
 
     def clean_title(self):
