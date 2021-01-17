@@ -1,15 +1,23 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.views import View
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
-from .models import Bot, BotHasQuestion
 from .forms import BotCreationForm, BotHasQuestionAnswerForm
+from .models import Bot, BotHasQuestion
 
 
 class BotHasQuestionUpdateView(LoginRequiredMixin, UpdateView):
     model = BotHasQuestion
     template_name = 'poll/bot_has_question_detail.html'
     form_class = BotHasQuestionAnswerForm
+
+    def form_valid(self, form):
+        yes = form.cleaned_data["yes"]
+        no = form.cleaned_data["no"]
+        form.instance.answer = yes if yes else not no
+        return super().form_valid(form)
 
     def get_success_url(self):
         next_question = self.object.next()
@@ -56,3 +64,8 @@ class BotListView(LoginRequiredMixin, ListView):
         return Bot.objects.filter(author=self.request.user)
 
     template_name = 'poll/bot_list.html'
+
+
+class RedirectToMainView(View):
+    def get(self, request):
+        return HttpResponseRedirect(reverse('bots'))

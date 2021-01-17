@@ -1,5 +1,6 @@
+from django.forms import ModelForm, ValidationError, BooleanField
+
 from .models import Bot, BotHasQuestion
-from django.forms import ModelForm, ValidationError
 
 
 class BotCreationForm(ModelForm):
@@ -10,7 +11,7 @@ class BotCreationForm(ModelForm):
 
     class Meta:
         model = Bot
-        fields = ('title', 'have_db', )
+        fields = ('title', 'have_db',)
         labels = {
             'title': 'Название',
             'have_db': 'Используется ли бд'
@@ -26,7 +27,13 @@ class BotCreationForm(ModelForm):
 class BotHasQuestionAnswerForm(ModelForm):
     class Meta:
         model = BotHasQuestion
-        fields = ('answer',)
-        labels = {
-            'answer': 'ответ',
-        }
+        fields = ()
+
+    yes = BooleanField(initial=False, required=False, label="Да")
+    no = BooleanField(initial=False, required=False, label="Нет")
+
+    def clean(self):
+        yes = self.cleaned_data["yes"]
+        no = self.cleaned_data["no"]
+        if yes == no:
+            raise ValidationError("Выберите один ответ.")
